@@ -1,44 +1,43 @@
-Customer Personality Analysis: From Spending Patterns to Strategic Growth
+# Customer Personality Analysis: From Spending Patterns to Strategic Growth
 
-This case study is a deep-dive customer segmentation project using Gaussian Mixture Models (GMM) to understand customer spending behavior and propose targeted marketing strategies. The analysis follows a structured workflow: Problem Scoping → Data Preparation → Modeling → Analysis → Recommendations.
-Tech Stack:
+This case study is a deep-dive customer segmentation project using **Gaussian Mixture Models (GMM)** to understand customer spending behavior and propose targeted marketing strategies. The analysis follows a structured workflow: **Problem Scoping → Data Preparation → Modeling → Analysis → Recommendations**.
 
-Python:
+## Tech Stack
 
-    pandas (data manipulation)
+**Python:**
+- pandas (data manipulation)
+- numpy (numerical operations)
+- scikit-learn (GMM, PCA, StandardScaler)
+- matplotlib / seaborn (visualizations)
 
-    numpy (numerical operations)
+---
 
-    scikit-learn (GMM, PCA, StandardScaler)
-
-    matplotlib / seaborn (visualizations)
-
-Business Task
+## Business Task
 
 Design data-driven marketing strategies to increase customer lifetime value by understanding natural spending segments and activating high-potential customer groups.
-Data Source
 
-Customer Personality Analysis Dataset (Kaggle)
+## Data Source
 
-    2,240 customers
+**Customer Personality Analysis Dataset** (Kaggle)
+- 2,240 customers
+- 29 attributes including demographics, spending across 6 product categories, and campaign responses
 
-    29 attributes including demographics, spending across 6 product categories, and campaign responses
+---
 
-Ask:
+## Ask
 
-    How do customers naturally segment based on their spending patterns across product categories?
+- How do customers naturally segment based on their spending patterns across product categories?
+- What distinguishes high-value customers from low-value ones?
+- Which customers are "uncertain" and ready to upgrade?
+- How can we target each segment with personalized marketing strategies?
 
-    What distinguishes high-value customers from low-value ones?
+---
 
-    Which customers are "uncertain" and ready to upgrade?
-
-    How can we target each segment with personalized marketing strategies?
-
-Prepare:
+## Prepare
 
 The dataset was loaded and assessed for quality:
-python
 
+```python
 import pandas as pd
 df = pd.read_csv('marketing_campaign.csv', sep='\t')
 print(df.shape)  # (2240, 29)
@@ -52,39 +51,38 @@ Key preparation steps:
 
     Analyzed zero-spending patterns to understand category penetration
 
-Process:
+Process
+Data Processing Pipeline
 
-Data Processing Pipeline:
+1. Exploratory Analysis
 
-    Exploratory Analysis
+    Identified zero-spending patterns: Meat (0% zeros), Wine (0.6% zeros) are universal; Fruits (17.9%), Fish (17.1%), Sweets (18.7%) have significant non-buyers
 
-        Identified zero-spending patterns: Meat (0% zeros), Wine (0.6% zeros) are universal; Fruits (17.9%), Fish (17.1%), Sweets (18.7%) have significant non-buyers
+    Detected outliers (keeping them as premium customer signals)
 
-        Detected outliers (keeping them as premium customer signals)
+https://PLOTS/Spending%2520Distributions%2520Per%2520Product.png
 
-    Feature Scaling (Critical for GMM)
+2. Feature Scaling (Critical for GMM)
 
-        Applied StandardScaler to normalize all 6 spending features to mean=0, std=1
+    Applied StandardScaler to normalize all 6 spending features to mean=0, std=1
 
-    Dimensionality Reduction for Validation
+https://PLOTS/All%2520Product%2520Features%2520After%2520Scaling.png
 
-        Applied PCA to reduce 6D → 2D while preserving 68.4% of variance
+3. Dimensionality Reduction for Validation
 
-        PC1 (56.1%): Spending volume
+    Applied PCA to reduce 6D → 2D while preserving 68.4% of variance
 
-        PC2 (12.3%): Specialist vs generalist orientation
+    PC1 (56.1%): Spending volume
 
-[IMAGE 1: PCA CLUSTER PLOT - 9 SEGMENTS IN 2D SPACE]
+    PC2 (12.3%): Specialist vs generalist orientation
 
-    Model Selection
+4. Model Selection
 
-        Tested K=1 through K=10 using BIC and AIC
+    Tested K=1 through K=10 using BIC and AIC
 
-        BIC suggested K=9 (conservative), AIC suggested K=10
+    BIC suggested K=9 (conservative), AIC suggested K=10
 
-        Selected K=9 to avoid overfitting
-
-python
+    Selected K=9 to avoid overfitting
 
 K=1: BIC=33,405  |  K=6: BIC=8,506
 K=2: BIC=15,798  |  K=7: BIC=8,279
@@ -92,29 +90,28 @@ K=3: BIC=11,459  |  K=8: BIC=7,931
 K=4: BIC=10,841  |  K=9: BIC=7,898 ← OPTIMAL
 K=5: BIC=9,662   |  K=10: BIC=7,926
 
-    Final GMM Training
+https://plots/Finding%2520Optimal%2520K%2520using%2520BIC%2520%2526%2520AIC.png
 
-        n_init=10 (multiple random starts to avoid local optima)
+5. Final GMM Training
 
-        covariance_type='full' (allow ellipsoidal clusters)
+    n_init=10 (multiple random starts to avoid local optima)
 
-        Converged in 82 iterations
+    covariance_type='full' (allow ellipsoidal clusters)
 
-        Log-likelihood: -1.32
+    Converged in 82 iterations
 
-    Confidence Scoring
+    Log-likelihood: -1.32
 
-        Generated probabilistic assignments for every customer
+6. Confidence Scoring
 
-        Mean confidence: 0.910 | Median: 0.973
+    Generated probabilistic assignments for every customer
 
-        83.2% have confidence > 0.8
+    Mean confidence: 0.910 | Median: 0.973
 
-[IMAGE 2: CONFIDENCE DISTRIBUTION - UNCERTAINTY HOTSPOTS IN RED]
+    83.2% have confidence > 0.8
+
 Analysis & Share
 Cluster Profiles (Average Spending)
-
-[IMAGE 3: CLUSTER PROFILES HEATMAP - SPENDING BY SEGMENT]
 Cluster	Name	Size	Defining Characteristics	Confidence
 0	"Almost Nothings"	17.5%	75-96% below avg across ALL categories	0.949
 1	"Light Shoppers"	11.1%	58-72% below avg, but buy some Gold	0.902
@@ -125,9 +122,9 @@ Cluster	Name	Size	Defining Characteristics	Confidence
 6	"True Zeros"	12.0%	Zero on Fruits/Sweets, near-zero everything	0.958
 7	"Wine Specialists"	8.7%	Wine +74%, average elsewhere	0.871
 8	"Wine & Gold Heavy"	10.9%	Wine +65%, Gold +83%, avoid food	0.926
-Revenue Concentration (The 40/20 Rule)
 
-[IMAGE 4: REVENUE CONCENTRATION CHART - 40/20 RULE VISUALIZATION]
+https://PLOTS/Clustering%2520Results%2520of%2520the%2520Spending%2520Patterns.png
+Revenue Concentration (The 40/20 Rule)
 
 Cluster 4 (11.7% of customers) drives:
 
@@ -159,8 +156,6 @@ Key Behavioral Patterns
 
     Clusters 2,5,7 show lowest confidence → prime for upselling
 
-[IMAGE 5: CONFIDENCE BY CLUSTER BAR CHART]
-
 3. Category Penetration Patterns
 
     Wine and Meat are staples (near-universal purchase)
@@ -170,10 +165,6 @@ Key Behavioral Patterns
     Gold creates a specialist split (some premium customers buy, some avoid)
 
 Act
-How do annual members and casual riders use Cyclistic bikes differently?
-
-[This section adapted from your reference, but for our context:]
-
 How do the 9 customer segments differ in their spending behavior?
 
     Ultra-Premium segment (Cluster 4) shows balanced high spending across all categories—they are "all-rounders" who value the full product range
@@ -182,9 +173,7 @@ How do the 9 customer segments differ in their spending behavior?
 
     Low-value segments (Clusters 0,6) spend 75-99% below average—they represent either new customers, budget-conscious shoppers, or mismatched prospects
 
-Why would casual riders buy Cyclistic annual memberships?
-
-[For our context: Why would low-value customers upgrade?]
+Why would low-value customers upgrade?
 
     Value realization - Customers in Cluster 1 (Light Shoppers) who gradually increase spending may realize they'd save with targeted bundles
 

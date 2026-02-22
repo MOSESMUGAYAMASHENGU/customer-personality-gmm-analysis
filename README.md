@@ -84,13 +84,15 @@ https://PLOTS/All%2520Product%2520Features%2520After%2520Scaling.png
 
     Selected K=9 to avoid overfitting
 
+text
+
 K=1: BIC=33,405  |  K=6: BIC=8,506
 K=2: BIC=15,798  |  K=7: BIC=8,279
 K=3: BIC=11,459  |  K=8: BIC=7,931
 K=4: BIC=10,841  |  K=9: BIC=7,898 ← OPTIMAL
 K=5: BIC=9,662   |  K=10: BIC=7,926
 
-https://plots/Finding%2520Optimal%2520K%2520using%2520BIC%2520%2526%2520AIC.png
+https://PLOTS/Finding%2520Optimal%2520K%2520using%2520BIC%2520%2526%2520AIC.png
 
 5. Final GMM Training
 

@@ -37,11 +37,11 @@ Design data-driven marketing strategies to increase customer lifetime value by u
 
 The dataset was loaded and assessed for quality:
 
-```python
+```
 import pandas as pd
 df = pd.read_csv('marketing_campaign.csv', sep='\t')
 print(df.shape)  # (2240, 29)
-print(df.isnull().sum())  # Only Income has 24 missing values (1.07%)
+print(df.isnull().sum())  # Only Income has 24 missing values (1.07%)```
 
 Key preparation steps:
 
@@ -125,6 +125,7 @@ Cluster	Name	Size	Defining Characteristics	Confidence
 7	"Wine Specialists"	8.7%	Wine +74%, average elsewhere	0.871
 8	"Wine & Gold Heavy"	10.9%	Wine +65%, Gold +83%, avoid food	0.926
 
+
 https://PLOTS/Clustering%2520Results%2520of%2520the%2520Spending%2520Patterns.png
 Revenue Concentration (The 40/20 Rule)
 
@@ -203,17 +204,17 @@ How can the company use digital media to influence upgrades?
 
     Category discovery content - Recipe ideas pairing wine with fish/seafood for Cluster 2
 
-Recommendations Summary
-Segment	Strategy	Offer
-Cluster 4 (Ultra-Premium)	Retain & deepen	VIP "Black Card" program
-Cluster 5 (Premium No-Gold)	Convert on gold	"Complete Your Collection" campaign
-Cluster 2 (Meat & Wine)	Lock in subscription	"Butcher's Block" monthly box
-Cluster 7 (Wine Specialists)	Expand categories	Wine & Food pairing events
-Clusters 3,8 (Wine+Gold)	Maintain & cross-sell	Gift bundles for holidays
-Cluster 1 (Light Shoppers)	Nurture & educate	Category discovery content
-Clusters 0,6 (Zeros)	Reactivate or suppress	Win-back offers + surveys
-About
+Recommendations Summary:
+Segment	                                              Strategy	                                                            Offer
+Cluster 4 (Ultra-Premium)	                        Retain & deepen	                                                 VIP "Black Card" program
+Cluster 5 (Premium No-Gold)	                        Convert on gold	                                                 "Complete Your Collection" campaign
+Cluster 2 (Meat & Wine)	                          Lock in subscription	                                             "Butcher's Block" monthly box
+Cluster 7 (Wine Specialists)	                   Expand categories	                                             Wine & Food pairing events
+Clusters 3,8 (Wine+Gold)	                     Maintain & cross-sell	                                             Gift bundles for holidays
+Cluster 1 (Light Shoppers)	                       Nurture & educate	                                             Category discovery content
+Clusters 0,6 (Zeros)	                         Reactivate or suppress	                                             Win-back offers + surveys
 
+About
 Capstone project demonstrating advanced unsupervised learning techniques for customer segmentation. Uses GMM for soft clustering and PCA for dimensional validation to uncover actionable business insights.
 
 Topics: python scikit-learn gaussian-mixture-models pca customer-segmentation unsupervised-learning data-science marketing-analytics
